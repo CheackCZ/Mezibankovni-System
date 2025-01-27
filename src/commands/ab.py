@@ -1,1 +1,0 @@
-# Class for command account balance: returns the balance of account number
