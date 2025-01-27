@@ -3,43 +3,35 @@ import os
 import mysql.connector
 from dotenv import load_dotenv
 
+from sqlalchemy import create_engine
+from sqlalchemy.orm import sessionmaker
+
+
 class Connection():
     """
     Class for managing database connections and validating configuration values.
     [!] - Reused file from the RDBMS project we did before.
     """
     
-    def connection():
-        """
-        Connects to the database based on the provided credentials inside .env file, which are loaded using the load_dotenv() function.
-        
-        :return mysql.connector.connection.MySQLConnection: The database connection object.
-        """
+    def get_engine(echo=False):
         load_dotenv()
-        
-        db = mysql.connector.connect(
-            host = Connection.validation(os.getenv('DB_HOST')),
-            user = Connection.validation(os.getenv('DB_USER')),
-            password = Connection.validation(os.getenv('DB_PASSWORD')),
-            database=Connection.validation(os.getenv('DB_NAME')),
-            port=Connection.port_validation(os.getenv('DB_PORT'))
-        )
-        return db
 
-    def connect_to_database():
-        """
-        Attempts to connect to the database and returns a tuple with connection status and message.
-        
-        :return tuple: A tuple containing a boolean (connection status) and a string message.
-        """
-        try:
-            Connection.connection()
-            return True, "Connection successful!"
-        except mysql.connector.Error as err:
-            print(f"Error: {err}")
-            return False, f"Connection failed due to MySQL connection error!"
-        
-        
+        DB_URL = (
+            f"mysql+mysqlconnector://"
+            f"{Connection.validation(os.getenv('DB_USER'))}:"
+            f"{Connection.validation(os.getenv('DB_PASSWORD'))}@"
+            f"{Connection.validation(os.getenv('DB_HOST'))}:"
+            f"{Connection.port_validation(os.getenv('DB_PORT'))}/"
+            f"{Connection.validation(os.getenv('DB_NAME'))}"
+        )
+
+        return create_engine(DB_URL, echo=echo)
+
+    def get_session(echo=False):
+        engine = Connection.get_engine(echo)
+        return sessionmaker(bind=engine)
+    
+
     def validation(value):
         """
         Validates string configuration values, ensuring they are not empty or invalid.
