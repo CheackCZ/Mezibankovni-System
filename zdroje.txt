@@ -1,1 +1,2 @@
 https://www.geeksforgeeks.org/logging-in-python/
+https://www.itnetwork.cz/python/sqlalchemy/sqlalchemy-uvod-a-instalace

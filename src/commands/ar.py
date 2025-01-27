@@ -1,0 +1,1 @@
+# Class for command account remove: removes the account number (but only if the balance of the account is 0)

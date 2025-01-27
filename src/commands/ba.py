@@ -1,0 +1,1 @@
+# Class for command bank (total) amount: returns the total sum of all accounts balances
