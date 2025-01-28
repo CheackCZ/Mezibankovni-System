@@ -7,4 +7,4 @@ class AC:
         self.account_controller = AccountController()
 
     def execute(self):
-        pass
+        self.account_controller.create_account()

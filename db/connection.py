@@ -1,6 +1,4 @@
 import os
-
-import mysql.connector
 from dotenv import load_dotenv
 
 from sqlalchemy import create_engine
@@ -27,9 +25,10 @@ class Connection():
 
         return create_engine(DB_URL, echo=echo)
 
-    def get_session(echo=False):
-        engine = Connection.get_engine(echo)
-        return sessionmaker(bind=engine)
+    def get_session():
+        engine = Connection.get_engine()
+        Session = sessionmaker(bind=engine)
+        return Session()
     
 
     def validation(value):
