@@ -1,3 +1,14 @@
-[INFO] (2025-01-26 11:09:57,890) - P2P: Aplikace spuštěna.
-[DEBUG] (2025-01-26 11:09:57,891) - P2P: Detailní informace pro ladění.
-[ERROR] (2025-01-26 11:09:57,891) - P2P: Došlo k chybě při zpracování příkazu.
+[INFO] (2025-01-28 18:34:30,994) - P2P: AccountController initialized.
+[INFO] (2025-01-28 18:34:31,035) - P2P: New account created: 10007 with balance 0.0.
+[INFO] (2025-01-28 18:34:31,038) - P2P: Returns the account: Account [10007]: 0.0 CZK
+[INFO] (2025-01-28 18:34:31,040) - P2P: Returns the account: Account [10007]: 0.0 CZK
+[INFO] (2025-01-28 18:34:31,049) - P2P: Deposited 500.0 to account 10007. New balance: 500.0.
+[INFO] (2025-01-28 18:34:31,051) - P2P: Returns the account: Account [10007]: 500.0 CZK
+[INFO] (2025-01-28 18:34:31,052) - P2P: Returns the account: Account [10007]: 500.0 CZK
+[INFO] (2025-01-28 18:34:31,053) - P2P: Retrieved balance for account 10007: 500.0.
+[INFO] (2025-01-28 18:34:31,055) - P2P: Returns the account: Account [10007]: 500.0 CZK
+[INFO] (2025-01-28 18:34:31,057) - P2P: Returns the account: Account [10007]: 500.0 CZK
+[INFO] (2025-01-28 18:34:31,062) - P2P: Withdrew 200.0 from account 10007. New balance: 300.0.
+[INFO] (2025-01-28 18:34:31,063) - P2P: Returns the account: Account [10007]: 300.0 CZK
+[INFO] (2025-01-28 18:34:31,065) - P2P: Returns the account: Account [10007]: 300.0 CZK
+[INFO] (2025-01-28 18:34:31,069) - P2P: Account 10007 has been removed.

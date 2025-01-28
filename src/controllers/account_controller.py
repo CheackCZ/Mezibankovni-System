@@ -1,5 +1,6 @@
 from db.connection import Connection
 from src.models.account import Account
+from src.logger import setup_logger
 
 class AccountController:
     """
@@ -12,6 +13,9 @@ class AccountController:
         """
         self.db = Connection.get_session()
 
+        self.logger = setup_logger()
+        self.logger.info("AccountController initialized.")
+
 
     def get_account(self, account_number):
         """
@@ -20,7 +24,12 @@ class AccountController:
         :param account_number: The account number to retrieve.
         """
         account = self.db.query(Account).filter(Account.account_number == account_number).first()
-        return account
+        if account:
+            self.logger.info(f"Returns the account: {account}")
+            return account
+        else:    
+            self.logger.warning(f"Account with number {account_number} was not found.")
+            return None
 
 
     def create_account(self):
@@ -33,6 +42,7 @@ class AccountController:
         self.db.commit()
         self.db.refresh(new_account)
     
+        self.logger.info(f"New account created: {new_account.account_number} with balance {new_account.balance}.")
         return new_account.account_number
     
 
@@ -49,6 +59,8 @@ class AccountController:
         self.db.delete(account)
         self.db.commit()
 
+        self.logger.info(f"Account {account_number} has been removed.")
+
 
     def account_ballance(self, account_number):
         """
@@ -59,7 +71,9 @@ class AccountController:
         self.validate_account_number(account_number)
         
         account = self.get_account(account_number)
-        return account.balance
+        self.logger.info(f"Retrieved balance for account {account_number}: {account.balance}.")
+
+        return account.balance  
 
 
     def account_deposit(self, account_number, amount):
@@ -78,6 +92,9 @@ class AccountController:
         self.db.commit()
         self.db.refresh(account)
 
+        self.logger.info(f"Deposited {amount} to account {account_number}. New balance: {account.balance}.")
+
+
     def account_withdraw(self, account_number, amount):
         """
         Withdraws a specified amount from an account after validation and ensures sufficient balance.
@@ -91,12 +108,16 @@ class AccountController:
         account = self.get_account(account_number)
 
         if account.balance < amount:
+            self.logger.error(f"Withdrawal of {amount} from account {account_number} failed. Insufficient balance.")
             raise ValueError("[!] Don't have enough money on the account balance")
 
         account.balance -= amount
 
         self.db.commit()
         self.db.refresh(account)
+
+        self.logger.info(f"Withdrew {amount} from account {account_number}. New balance: {account.balance}.")
+
 
     
     def validate_account_number(self, account_number):
@@ -106,10 +127,12 @@ class AccountController:
         :param account_number: The account number to validate.
         """
         if type(account_number) != int:
+            self.logger.error(f"Validation failed: Account number must be an integer. Received: {account_number}")
             raise ValueError("[!] Account number must be an integer.")
         
         account = self.get_account(account_number)
         if not account:
+            self.logger.error(f"Validation failed: Account with number {account_number} does not exist.")
             raise ValueError(f"[!] Account with number {account_number} does not exist.")
 
     def validate_amount(self, amount):
@@ -119,7 +142,9 @@ class AccountController:
         :param amount: The amount to validate.
         """
         if type(amount) not in [int, float]:
+            self.logger.error(f"Validation failed: Amount must be a number. Received: {amount}")
             raise ValueError("[!] Amount must be type of number.")
         
         if amount <= 0:
+            self.logger.error(f"Validation failed: Amount must be a positive number. Received: {amount}")
             raise ValueError("[!] Amount must be a positive number.")
