@@ -51,6 +51,6 @@ class Connection():
         
         :return int: The validated port as an integer.
         """
-        if not port.isdigit() or not (1 <= int(port) <= 65535):
+        if not port.isdigit() or not (65525 <= int(port) <= 65535):
             raise ValueError("Invalid configuration for port -> Update its value inside the .env file.")
         return int(port)  

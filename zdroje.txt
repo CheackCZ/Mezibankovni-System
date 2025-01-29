@@ -2,3 +2,4 @@ https://www.geeksforgeeks.org/logging-in-python/
 https://www.itnetwork.cz/python/sqlalchemy/sqlalchemy-uvod-a-instalace
 https://chatgpt.com/c/6798c30b-756c-800b-b2a8-fdd371fdf18a
 https://docs.sqlalchemy.org/en/14/orm/declarative_tables.html
+https://blog.devgenius.io/implementing-peer-to-peer-data-exchange-in-python-8e69513489af

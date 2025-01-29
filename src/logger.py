@@ -12,7 +12,7 @@ def setup_logger(log_file="./logs/debug.log", log_level=logging.DEBUG):
     console_handler.setLevel(get_log_level())
     console_handler.setFormatter(formatter)
 
-    file_handler = logging.FileHandler(log_file, encoding="utf-8", mode='w')
+    file_handler = logging.FileHandler(log_file, encoding=os.getenv('FORMAT'), mode='w')
     file_handler.setLevel(logging.DEBUG)
     file_handler.setFormatter(formatter)
 
