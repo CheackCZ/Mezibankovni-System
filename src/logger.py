@@ -3,10 +3,16 @@ import os
 
 from dotenv import load_dotenv
 
+load_dotenv()
+
 def setup_logger(log_file="./logs/debug.log", log_level=logging.DEBUG):
     logger = logging.getLogger("P2P")
-    logger.setLevel(log_level)
 
+    if logger.hasHandlers():
+        return logger
+    
+    logger.setLevel(log_level)
+    
     formatter = logging.Formatter('[%(levelname)-3s] (%(asctime)s) - (%(filename)s) -> %(name)s: %(message)s')
 
     console_handler = logging.StreamHandler()
@@ -32,10 +38,11 @@ def get_log_level():
         "critical": logging.CRITICAL
     }    
     
-    load_dotenv()
     log_level = os.getenv("LOG_LEVEL").lower()
 
     if log_level in levels:
         return levels[log_level]
     else:
         raise ValueError("[!] Values for LOG_LEVEL must be either debug, info, warning, error, or critical.")
+    
+setup_logger()

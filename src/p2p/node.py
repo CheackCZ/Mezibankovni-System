@@ -6,6 +6,8 @@ from src.logger import setup_logger
 
 class Node:
 
+    logger = setup_logger()
+
     def __init__(self, host: str, port: int):
         self.host = host
         self.port = port
@@ -16,7 +18,6 @@ class Node:
 
         self.command_controller = CommandController()
 
-        self.logger = setup_logger()
         self.logger.info("Node was instantiated successfully on %s:%d.", host, port)
 
 
@@ -63,6 +64,7 @@ class Node:
 
                 data = data.strip()
                 if not data:
+                    conn.sendall(b"> ")  
                     continue
 
                 parts = data.split()

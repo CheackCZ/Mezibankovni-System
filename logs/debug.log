@@ -1,7 +1,2 @@
-[INFO] (2025-02-04 11:10:09,175) - (account_controller.py) -> P2P: AccountController initialized.
-[INFO] (2025-02-04 11:10:09,197) - (account_controller.py) -> P2P: New account created: 10016 with balance 0.0.
-[INFO] (2025-02-04 11:10:15,395) - (node.py) -> P2P: Connection closed on node: 127.0.0.1:31264
-e 0.0.
-[INFO] (2025-02-04 11:10:15,395) - (node.py) -> P2P: Connection closed on node: 127.0.0.1:31264
-
-[INFO] (2025-02-04 11:10:15,395) - (node.py) -> P2P: Connection closed on node: 127.0.0.1:31264
+[INFO] (2025-02-04 14:30:36,850) - (bank_controller.py) -> P2P: Return the bank code (ip): 127.0.0.1
+[INFO] (2025-02-04 14:30:39,301) - (node.py) -> P2P: Connection closed on node: 127.0.0.1:25398

@@ -1,19 +1,14 @@
+from src.logger import setup_logger
+
 from db.connection import Connection
 from src.models.account import Account
-from src.logger import setup_logger
 
 class AccountController:
     """
     Handles account-related operations and ensures input validation.
     """
 
-    def __init__(self):
-        """
-        Initializes the database session.
-        """
-        self.logger = setup_logger()
-        self.logger.info("AccountController initialized.")
-        
+    logger = setup_logger()
 
     def get_session(self):
         return Connection.get_session()
@@ -27,11 +22,7 @@ class AccountController:
         """
         account = session.query(Account).filter(Account.account_number == account_number).first()
 
-        if account:
-            self.logger.info(f"Returns the account: {account}")
-            return account
-        
-        else:    
+        if not account:        
             self.logger.warning(f"Account with number {account_number} was not found.")
             return None
 
@@ -101,7 +92,7 @@ class AccountController:
         """
         session = self.get_session()
 
-        self.validate_account_number(account_number)
+        self.validate_account_number(account_number, session)
         self.validate_amount(amount)
 
         account = self.get_account(account_number, session)

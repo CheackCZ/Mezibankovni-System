@@ -1,19 +1,23 @@
 from sqlalchemy.sql import func
+from src.logger import setup_logger
+import os
 
 from db.connection import Connection
 from src.models.account import Account
-from src.logger import setup_logger 
 
 
 class BankController:
 
-    def __init__(self):
-        self.logger = setup_logger()
-
+    logger = setup_logger() 
     
     def get_session(self):
         return Connection.get_session()
     
+
+    def get_bank_code(self):
+        bank_ip = os.getenv("HOST")
+        self.logger.info(f"Return the bank code (ip): {bank_ip}")
+        return bank_ip
     
     def get_total_balance(self):
         session = self.get_session()

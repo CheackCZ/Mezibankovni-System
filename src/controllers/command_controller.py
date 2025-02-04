@@ -29,7 +29,7 @@ class CommandController:
                 return command_instance.execute(*args)
         
             except Exception as e:
-                return f"ER {e}"
+                return f"ER: {e}"
         
         else:
-            return f"ER: Unknown command"
+            return f"ER: Unknown command\r\n\r\n> "
