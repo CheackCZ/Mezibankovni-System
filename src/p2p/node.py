@@ -1,5 +1,8 @@
 import socket
-import threading
+import multiprocessing
+
+from src.controllers.command_controller import CommandController
+from src.logger import setup_logger
 
 class Node:
 
@@ -9,12 +12,17 @@ class Node:
 
         self.sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
-        self.connections = []        
+        self.connections = [] 
+
+        self.command_controller = CommandController()
+
+        self.logger = setup_logger()
+        self.logger.info("Node was instantiated successfully on %s:%d.", host, port)
 
 
     def start(self):
-        thread = threading.Thread(target=self.listen)
-        thread.start()
+        process = multiprocessing.Process(target=self.listen)
+        process.run()
 
 
     def connect(self, host: str, port: int):
@@ -24,38 +32,66 @@ class Node:
             
             self.connections.append(connection)
 
-            print(f"Connected to {host}:{port}")
+            self.logger.info("Connected to node %s:%d", host, port)
 
         except Exception as e:
-            print(f"Error connecting to {host}:{port}: {e}")
+            self.logger.error("Error connecting to %s:%d: %s", host, port, e)
 
     def listen(self):
         self.sock.bind((self.host, self.port))        
         self.sock.listen(5)
-        print(f"Listening on {self.host}:{self.port}")
+        self.logger.info("Listening on %s:%d", self.host, self.port)
 
         while True:
             conn, addr = self.sock.accept()
             self.connections.append(conn)
 
-            print(f"Connected to {addr[0]}:{addr[1]}")
+            self.logger.info("Connected to %s:%d", addr[0], addr[1])
 
-            thread = threading.Thread(target=self.handle_client, args=(conn, addr))
-            thread.start()
+            process = multiprocessing.Process(target=self.handle_client, args=(conn, addr), daemon=True)
+            process.start()
+
 
     def handle_client(self, conn, addr):
+        self.welcome_message(conn, addr)        
+
         while True:
             try:
-                data = conn.recv(1024)
+                data = conn.recv(1024).decode('utf-8')
                 if not data:
                     break  
 
-                message = data.decode('utf-8')
-                self.handle_message(message, conn, addr)
+                data = data.strip()
+                if not data:
+                    continue
 
-            except:
+                parts = data.split()
+                if not parts:
+                    continue
+
+                parts = data.strip().split()
+                command = parts[0]
+                args = parts[1:]
+
+                response = self.command_controller.execute(command, args)
+                conn.sendall(response.encode('utf-8'))
+
+            except Exception as e:
+                self.logger.error(f"Error handling client {addr}: {e}")
+                conn.sendall(f"ER: {e}".encode('utf-8'))
                 break
 
         conn.close()
         self.connections.remove(conn)
-        print(f"Connection closed: {addr[0]}:{addr[1]}")
+        self.logger.info("Connection closed on node: %s:%d", addr[0], addr[1])
+
+
+    def welcome_message(self, conn, addr):
+        try:
+            welcome_message = "Welcome to the P2P Node! Enter your command below:\r\n> "
+            conn.sendall(welcome_message.encode('utf-8'))
+
+        except Exception as e:
+            self.logger.error("Error sending welcome message to client %s: %s", addr, e)
+            conn.close()
+            return

@@ -10,7 +10,6 @@ use interbanking_db;
 grant all privileges on interbanking_db.* to 'admin'@'localhost';
 flush privileges;
 
-
 -- Vytvoření tabulky account
 create table account (
     account_number int primary key auto_increment,

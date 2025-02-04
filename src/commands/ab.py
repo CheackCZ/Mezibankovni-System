@@ -8,8 +8,9 @@ class AB:
 
     def execute(self, account_number):
         try:
-            balance = self.account_controller.account_ballance(account_number=account_number)
+            account_number = int(account_number)
+            balance = self.account_controller.account_ballance(account_number)
 
-            print(f"AB: {balance}")
+            return f"AB: {balance}\r\n\r\n> "
         except Exception as e:
-            print(f"ER: {e}")
+            return f"ER: {e}\r\n\r\n> "

@@ -12,6 +12,11 @@ class Connection():
     """
     
     def get_engine(echo=False):
+        """
+        Connection to the database using the configuration values from the .env file.
+
+        :param echo: (bool) If True, the engine will log all the SQL statements it executes. 
+        """
         load_dotenv()
 
         DB_URL = (
@@ -26,6 +31,9 @@ class Connection():
         return create_engine(DB_URL, echo=echo)
 
     def get_session():
+        """
+        Creates a new session for the database connection.
+        """
         engine = Connection.get_engine()
         Session = sessionmaker(bind=engine)
         return Session()
@@ -51,6 +59,10 @@ class Connection():
         
         :return int: The validated port as an integer.
         """
-        if not port.isdigit() or not (65525 <= int(port) <= 65535):
-            raise ValueError("Invalid configuration for port -> Update its value inside the .env file.")
+        if not port.isdigit():
+            raise ValueError("Invalid data type for port -> Update its value inside the .env file.")
+        
+        elif not (1 <= int(port) <= 65535):
+            raise ValueError("Invalid range for port -> Update its value inside the .env file.")
+        
         return int(port)  

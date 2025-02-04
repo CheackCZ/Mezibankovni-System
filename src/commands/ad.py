@@ -8,8 +8,11 @@ class AD:
 
     def execute(self, account_number, amount):
         try:
-            self.account_controller.account_deposit(account_number=account_number, amount=amount)
+            account_number = int(account_number)
+            amount = float(amount)
 
-            print(f"AD")
+            self.account_controller.account_deposit(account_number, amount)
+
+            return f"AD\r\n\r\n> "
         except Exception as e:
-            print(f"ER: {e}")
+            return f"ER: {e}\r\n\r\n> "

@@ -1,9 +1,21 @@
 # Class for command bank code: returns the bank code
-from controllers.bank_controller import BankController
+import os
 
-class BA:
+from src.controllers.bank_controller import BankController
+
+class BC:
+    """
+    Class for handling bank code requests.
+    """
 
     def __init__(self):
         self.bank_controller = BankController()
 
-    # NOTIMPLEMENTEDYET
+
+    def execute(self):
+        try:
+            bank_ip = os.getenv("HOST")
+            return f"BC {bank_ip}\r\n\r\n> "
+        
+        except Exception as e:
+            return f"ER: {e}\r\n\r\n> "

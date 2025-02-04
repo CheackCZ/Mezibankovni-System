@@ -8,8 +8,9 @@ class AR:
 
     def execute(self, account_number):
         try:
-            self.account_controller.remove_account(account_number=account_number)
+            account_number = int(account_number)
+            self.account_controller.remove_account(account_number)
 
-            print(f"AR")
+            return f"AR\r\n\r\n> "
         except Exception as e:
-            print(f"ER: {e}")
+            return f"ER: {e}\r\n\r\n> "

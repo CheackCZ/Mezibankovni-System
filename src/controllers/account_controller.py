@@ -11,22 +11,26 @@ class AccountController:
         """
         Initializes the database session.
         """
-        self.db = Connection.get_session()
-
         self.logger = setup_logger()
         self.logger.info("AccountController initialized.")
+        
+
+    def get_session(self):
+        return Connection.get_session()
 
 
-    def get_account(self, account_number):
+    def get_account(self, account_number, session):
         """
         Retrieves an account by its account number.
 
         :param account_number: The account number to retrieve.
         """
-        account = self.db.query(Account).filter(Account.account_number == account_number).first()
+        account = session.query(Account).filter(Account.account_number == account_number).first()
+
         if account:
             self.logger.info(f"Returns the account: {account}")
             return account
+        
         else:    
             self.logger.warning(f"Account with number {account_number} was not found.")
             return None
@@ -36,11 +40,15 @@ class AccountController:
         """
         Creates a new account with a zero balance and returns its account number.
         """
+        session = self.get_session()
+
         new_account = Account(balance=0.0)
     
-        self.db.add(new_account)
-        self.db.commit()
-        self.db.refresh(new_account)
+        session.add(new_account)
+        session.commit()
+        session.refresh(new_account)
+
+        session.close()
     
         self.logger.info(f"New account created: {new_account.account_number} with balance {new_account.balance}.")
         return new_account.account_number
@@ -52,14 +60,18 @@ class AccountController:
 
         :param account_number: The account number to delete.
         """
-        self.validate_account_number(account_number)
-        
-        account = self.get_account(account_number)
-        
-        self.db.delete(account)
-        self.db.commit()
+        session = self.get_session()
 
-        self.logger.info(f"Account {account_number} has been removed.")
+        self.validate_account_number(account_number, session)
+        
+        account = self.get_account(account_number, session)
+        
+        if account:
+            session.delete(account)
+            session.commit()
+            self.logger.info(f"Account {account_number} has been removed.")
+
+        session.close()
 
 
     def account_ballance(self, account_number):
@@ -68,10 +80,14 @@ class AccountController:
 
         :param account_number: The account number to retrieve the balance for.
         """
-        self.validate_account_number(account_number)
+        session = self.get_session()
+
+        self.validate_account_number(account_number, session)
         
-        account = self.get_account(account_number)
+        account = self.get_account(account_number, session)
         self.logger.info(f"Retrieved balance for account {account_number}: {account.balance}.")
+
+        session.close()
 
         return account.balance  
 
@@ -83,16 +99,20 @@ class AccountController:
         :param account_number: The account number to deposit the amount into.
         :param amount: The amount to deposit.
         """
+        session = self.get_session()
+
         self.validate_account_number(account_number)
         self.validate_amount(amount)
 
-        account = self.get_account(account_number)
-        account.balance += amount
+        account = self.get_account(account_number, session)
+        if account:
+            account.balance += amount
+            session.commit()
+            session.refresh(account)
 
-        self.db.commit()
-        self.db.refresh(account)
-
-        self.logger.info(f"Deposited {amount} to account {account_number}. New balance: {account.balance}.")
+            self.logger.info(f"Deposited {amount} to account {account_number}. New balance: {account.balance}.")
+        
+        session.close()
 
 
     def account_withdraw(self, account_number, amount):
@@ -102,25 +122,30 @@ class AccountController:
         :param account_number: The account number to withdraw the amount from.
         :param amount: The amount to withdraw.
         """
-        self.validate_account_number(account_number)
+        session = self.get_session()
+
+        self.validate_account_number(account_number, session)
         self.validate_amount(amount)
        
-        account = self.get_account(account_number)
+        account = self.get_account(account_number, session)
 
-        if account.balance < amount:
+        if account and account.balance >= amount:
+            account.balance -= amount
+
+            session.commit()
+            session.refresh(account)
+            
+            self.logger.info(f"Withdrew {amount} from account {account_number}. New balance: {account.balance}.")
+        
+        else:
             self.logger.error(f"Withdrawal of {amount} from account {account_number} failed. Insufficient balance.")
             raise ValueError("[!] Don't have enough money on the account balance")
-
-        account.balance -= amount
-
-        self.db.commit()
-        self.db.refresh(account)
-
-        self.logger.info(f"Withdrew {amount} from account {account_number}. New balance: {account.balance}.")
+        
+        session.close()
 
 
     
-    def validate_account_number(self, account_number):
+    def validate_account_number(self, account_number, session):
         """
         Validates that the account number is an integer and exists in the database.
 
@@ -130,10 +155,12 @@ class AccountController:
             self.logger.error(f"Validation failed: Account number must be an integer. Received: {account_number}")
             raise ValueError("[!] Account number must be an integer.")
         
-        account = self.get_account(account_number)
+        account = self.get_account(account_number, session)
         if not account:
             self.logger.error(f"Validation failed: Account with number {account_number} does not exist.")
             raise ValueError(f"[!] Account with number {account_number} does not exist.")
+        
+        session.close()
 
     def validate_amount(self, amount):
         """

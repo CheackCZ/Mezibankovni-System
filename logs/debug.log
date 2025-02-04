@@ -1,14 +1,7 @@
-[INFO] (2025-01-28 18:34:30,994) - P2P: AccountController initialized.
-[INFO] (2025-01-28 18:34:31,035) - P2P: New account created: 10007 with balance 0.0.
-[INFO] (2025-01-28 18:34:31,038) - P2P: Returns the account: Account [10007]: 0.0 CZK
-[INFO] (2025-01-28 18:34:31,040) - P2P: Returns the account: Account [10007]: 0.0 CZK
-[INFO] (2025-01-28 18:34:31,049) - P2P: Deposited 500.0 to account 10007. New balance: 500.0.
-[INFO] (2025-01-28 18:34:31,051) - P2P: Returns the account: Account [10007]: 500.0 CZK
-[INFO] (2025-01-28 18:34:31,052) - P2P: Returns the account: Account [10007]: 500.0 CZK
-[INFO] (2025-01-28 18:34:31,053) - P2P: Retrieved balance for account 10007: 500.0.
-[INFO] (2025-01-28 18:34:31,055) - P2P: Returns the account: Account [10007]: 500.0 CZK
-[INFO] (2025-01-28 18:34:31,057) - P2P: Returns the account: Account [10007]: 500.0 CZK
-[INFO] (2025-01-28 18:34:31,062) - P2P: Withdrew 200.0 from account 10007. New balance: 300.0.
-[INFO] (2025-01-28 18:34:31,063) - P2P: Returns the account: Account [10007]: 300.0 CZK
-[INFO] (2025-01-28 18:34:31,065) - P2P: Returns the account: Account [10007]: 300.0 CZK
-[INFO] (2025-01-28 18:34:31,069) - P2P: Account 10007 has been removed.
+[INFO] (2025-02-04 11:10:09,175) - (account_controller.py) -> P2P: AccountController initialized.
+[INFO] (2025-02-04 11:10:09,197) - (account_controller.py) -> P2P: New account created: 10016 with balance 0.0.
+[INFO] (2025-02-04 11:10:15,395) - (node.py) -> P2P: Connection closed on node: 127.0.0.1:31264
+e 0.0.
+[INFO] (2025-02-04 11:10:15,395) - (node.py) -> P2P: Connection closed on node: 127.0.0.1:31264
+
+[INFO] (2025-02-04 11:10:15,395) - (node.py) -> P2P: Connection closed on node: 127.0.0.1:31264

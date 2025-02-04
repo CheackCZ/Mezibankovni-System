@@ -1,5 +1,5 @@
 # Class for command bank number of clients: returns the number of clients in the bank
-from controllers.bank_controller import BankController
+from src.controllers.bank_controller import BankController
 
 class BN:
 
@@ -9,6 +9,6 @@ class BN:
     def execute(self):
         try:
             total_accounts = self.bank_controller.get_number_of_accounts()
-            return f"BN: {total_accounts}"
+            return f"BN: {total_accounts}\r\n\r\n> "
         except Exception as e:
-            return f"ER: {str(e)}"
+            return f"ER: {str(e)}\r\n\r\n> "
