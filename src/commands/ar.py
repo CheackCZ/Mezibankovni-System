@@ -1,12 +1,24 @@
-# Class for command account remove: removes the account number (but only if the balance of the account is 0)
 from src.controllers.account_controller import AccountController
 
 class AR:
+    """
+    Handles the 'AR' command, which removes an account if its balance is zero.
+    """
 
     def __init__(self):
+        """
+        Initializes the AR command with an instance of AccountController.
+        """
         self.account_controller = AccountController()
 
     def execute(self, account_data):
+        """
+        Executes the 'AR' command to remove an account.
+
+        :param account_data (str): A string in the format "<account>/<ip>".
+
+        :return: "AR" if the account is successfully removed, or an error message.
+        """
         try:
             account_parts = account_data.split("/")
             if len(account_parts) != 2:

@@ -8,3 +8,4 @@ https://www.geeksforgeeks.org/python-binding-and-listening-with-sockets/
 https://stackoverflow.com/questions/55084433/difference-between-process-run-and-process-start
 https://www.askpython.com/python-modules/python-signal
 https://stackoverflow.com/questions/18704862/python-frame-parameter-of-signal-handler
+https://chatgpt.com/c/67a51035-43bc-800b-9951-048a23a61ec5

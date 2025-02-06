@@ -6,15 +6,23 @@ from src.controllers.command_controller import CommandController
 from src.logger import setup_logger
 
 class Node:
+    """
+    Represents a node in a P2P network, responsible for establishing connections, listening for incoming requests, and handling client communication.
+    """
 
     logger = setup_logger()
 
     def __init__(self, host: str, port: int):
+        """
+        Initializes a P2P node.
+
+        :param host (str): The IP address or hostname where the node will run.
+        :param port (int): The port number for incoming connections.
+        """
         self.host = host
         self.port = port
 
         self.sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-
         self.connections = [] 
 
         self.command_controller = CommandController()
@@ -23,11 +31,20 @@ class Node:
 
 
     def start(self):
+        """
+        Starts the node's listener process in a separate process.
+        """
         process = multiprocessing.Process(target=self.listen)
         process.run()
 
 
     def connect(self, host: str, port: int):
+        """
+        Connects to another P2P node.
+
+        :param host (str): The IP address or hostname of the target node.
+        :param port (int): The port number of the target node.
+        """
         try:
             connection = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
             connection.settimeout(config.TIMEOUT)
@@ -46,6 +63,9 @@ class Node:
             raise TimeoutError(f"Connection to {host}:{port} timed out after {config.TIMEOUT} seconds.")
 
     def listen(self):
+        """
+        Listens for incoming connections and spawns a new process to handle each client.
+        """
         self.sock.bind((self.host, self.port))        
         self.sock.listen(5)
         self.logger.info("Listening on %s:%d", self.host, self.port)
@@ -61,6 +81,12 @@ class Node:
 
 
     def handle_client(self, conn, addr):
+        """
+        Handles communication with a connected client.
+
+        :param conn (socket.socket): The client's socket connection.
+        :param addr (tuple): The client's (IP, port) tuple.
+        """
         self.welcome_message(conn, addr)       
 
         conn.settimeout(config.TIMEOUT) 
@@ -96,6 +122,12 @@ class Node:
         self.logger.info("Connection closed on node: %s:%d", addr[0], addr[1])
 
     def welcome_message(self, conn, addr):
+        """
+        Sends a welcome message to a newly connected client.
+
+        :param conn (socket.socket): The client's socket connection.
+        :param addr (tuple): The client's (IP, port) tuple.
+        """
         try:
             welcome_message = "Welcome to the P2P Node! Enter your command below:\r\n> "
             conn.sendall(welcome_message.encode('utf-8'))

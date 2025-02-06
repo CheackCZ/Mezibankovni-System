@@ -3,6 +3,14 @@ from src.config import config
 
 
 def setup_logger(log_file="./logs/debug.log", log_level=logging.DEBUG):
+    """
+    Sets up and configures a logger for the P2P application.
+
+    :param log_file (str): Path to the log file where logs should be stored.
+    :param log_level (int): Logging level (e.g., logging.DEBUG, logging.INFO).
+    
+    :return: Configured logger instance.
+    """
     logger = logging.getLogger("P2P")
 
     if logger.hasHandlers():

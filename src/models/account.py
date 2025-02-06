@@ -3,6 +3,9 @@ from sqlalchemy import CheckConstraint
 from src.models.base import Base
 
 class Account(Base):
+    """
+    Represents an account in the database.
+    """
 
     __tablename__ = 'account'
 
@@ -15,4 +18,9 @@ class Account(Base):
     )
 
     def __repr__(self):
+        """
+        Returns a string representation of the account.
+
+        :return: Formatted account details as a string.
+        """
         return f'Account [{self.account_number}]: {self.balance} CZK'

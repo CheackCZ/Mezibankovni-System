@@ -9,8 +9,14 @@ from src.commands.ba import BA
 from src.commands.bn import BN
 
 class CommandController:
+    """
+    Handles the execution of various commands in the system.
+    """
 
     def __init__(self):
+        """
+        Initializes the command controller and maps command identifiers to their corresponding classes.
+        """
         self.commands = {
             "AB": AB, 
             "AC": AC,
@@ -23,6 +29,14 @@ class CommandController:
         }
 
     def execute(self, command, args):
+        """
+        Executes a given command with the provided arguments.
+
+        :param command (str): The command identifier to execute.
+        :param args (list): A list of arguments for the command.
+        
+        :return: The result of the command execution or an error message.
+        """
         if command in self.commands:
             try:
                 command_instance = self.commands[command]()

@@ -6,10 +6,14 @@ import mysql.connector
 
 class Config:
     """
-    Validates and loads all required environment variables.
+    Validates and loads all required environment variables for the application.
+    Ensures database connectivity and correct configuration settings.
     """
 
     def __init__(self):
+        """
+        Initializes the Config class by loading environment variables and validating them.
+        """
         load_dotenv()  
 
         # Database configuration
@@ -26,7 +30,6 @@ class Config:
         self.PORT = self._validate_port("PORT", min_value=65525, max_value=65535) 
         self.FORMAT = self._validate_env_variable("FORMAT", allowed_values=["utf-8", "ascii"])
 
-
         # Logging level configuration
         self.LOG_LEVEL = self._validate_env_variable("LOG_LEVEL", allowed_values=["debug", "info", "warning", "error", "critical"])
 
@@ -37,6 +40,11 @@ class Config:
     def _validate_host(self, var_name):
         """
         Validates that the provided HOST or DB_HOST value is a valid IPv4 or 'localhost'.
+
+        :param var_name (str): Name of the environment variable containing the host.
+        :return: Validated host string.
+
+        :raises ValueError: If the value is missing or not a valid host.
         """
         value = os.getenv(var_name)
         if value is None:
@@ -54,6 +62,12 @@ class Config:
     def _validate_port(self, var_name, min_value, max_value):
         """
         Validates that the provided port is an integer within the allowed range.
+
+        :param var_name (str): Name of the environment variable containing the port.
+        :param min_value (int): Minimum allowed value for the port.
+        :param max_value (int): Maximum allowed value for the port.
+
+        :return: Validated port number as an integer.
         """
         value = os.getenv(var_name)
         if value is None:
@@ -71,6 +85,13 @@ class Config:
 
 
     def _validate_timeout(self, var_name):
+        """
+        Validates the timeout value from the environment.
+
+        :param var_name (str): Name of the environment variable containing the timeout value.
+
+        :return: Validated timeout value as an integer.
+        """
         value = os.getenv(var_name)
         if value is None:
             raise ValueError(f"[!] Missing timeout variable: {var_name}")
@@ -88,9 +109,12 @@ class Config:
 
     def _validate_env_variable(self, var_name, allowed_values=None):
         """
-        Validates environment variables.
+        Validates an environment variable to ensure it is present and optionally checks for allowed values.
 
-        :param var_name: Name of the environment variable.
+        :param var_name (str): Name of the environment variable.
+        :param allowed_values (list, optional): List of allowed values for the variable.
+
+        :return: Validated environment variable value as a string.
         """
         value = os.getenv(var_name)
         if value is None:

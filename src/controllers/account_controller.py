@@ -11,6 +11,11 @@ class AccountController:
     logger = setup_logger()
 
     def get_session(self):
+        """
+        Retrieves a new database session.
+
+        :return: A new SQLAlchemy session.
+        """
         return Connection.get_session()
 
 
@@ -18,7 +23,10 @@ class AccountController:
         """
         Retrieves an account by its account number.
 
-        :param account_number: The account number to retrieve.
+        :param account_number (int): The account number to retrieve.
+        :param session: The SQLAlchemy session to use for the query.
+
+        :return: The account object if found, else None.
         """
         account = session.query(Account).filter(Account.account_number == account_number).first()
 
@@ -31,7 +39,9 @@ class AccountController:
 
     def create_account(self):
         """
-        Creates a new account with a zero balance and returns its account number.
+        Creates a new account with a zero balance.
+
+        :return: The newly created account's account number.
         """
         session = self.get_session()
 
@@ -51,7 +61,7 @@ class AccountController:
         """
         Deletes an account by its account number after validation.
 
-        :param account_number: The account number to delete.
+        :param account_number (int): The account number to delete.
         """
         session = self.get_session()
 
@@ -71,7 +81,9 @@ class AccountController:
         """
         Retrieves the balance of an account.
 
-        :param account_number: The account number to retrieve the balance for.
+        :param account_number (int): The account number to retrieve the balance for.
+
+        :return: The current balance of the account.
         """
         session = self.get_session()
 
@@ -89,8 +101,8 @@ class AccountController:
         """
         Deposits a specified amount into an account after validation.
 
-        :param account_number: The account number to deposit the amount into.
-        :param amount: The amount to deposit.
+        :param account_number (int): The account number to deposit the amount into.
+        :param amount (float): The amount to deposit.
         """
         session = self.get_session()
 
@@ -112,8 +124,8 @@ class AccountController:
         """
         Withdraws a specified amount from an account after validation and ensures sufficient balance.
 
-        :param account_number: The account number to withdraw the amount from.
-        :param amount: The amount to withdraw.
+        :param account_number (int): The account number to withdraw the amount from.
+        :param amount (float): The amount to withdraw.
         """
         session = self.get_session()
 
@@ -140,9 +152,10 @@ class AccountController:
     
     def validate_account_number(self, account_number, session):
         """
-        Validates that the account number is an integer and exists in the database.
+        Validates that the account number is an integer, within the valid range, and exists in the database.
 
-        :param account_number: The account number to validate.
+        :param account_number (int): The account number to validate.
+        :param session: The SQLAlchemy session to use for validation.
         """
         if type(account_number) != int:
             self.logger.error(f"Validation failed: Account number must be an integer. Received: {account_number}")
@@ -163,7 +176,7 @@ class AccountController:
         """
         Validates that the amount is a positive number (integer or float).
 
-        :param amount: The amount to validate.
+        :param amount (float): The amount to validate.
         """
         if type(amount) not in [int, float]:
             self.logger.error(f"Validation failed: Amount must be a number. Received: {amount}")

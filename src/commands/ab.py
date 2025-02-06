@@ -1,12 +1,24 @@
-# Class for command account balance: returns balance for given account_number
 from src.controllers.account_controller import AccountController
 
 class AB:
+    """
+    Handles the 'AB' command, which retrieves the balance of a given account.
+    """
 
     def __init__(self):
+        """
+        Initializes the AB command with an instance of AccountController.
+        """
         self.account_controller = AccountController()
 
     def execute(self, account_data):
+        """
+        Executes the 'AB' command to fetch the account balance.
+
+        :param account_data (str): A string in the format "<account>/<ip>".
+
+        :return: The account balance in the format "AB <balance>" or an error message.
+        """
         try:
             account_parts = account_data.split("/")
             if len(account_parts) != 2:
