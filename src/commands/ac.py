@@ -10,6 +10,6 @@ class AC:
         try:
             account_number = self.account_controller.create_account()
 
-            return f"AC: {account_number}\r\n\r\n> "
+            return f"AC: {account_number}"
         except Exception as e:
-            return f"ER: {e}\r\n\r\n> "
+            return f"ER: {e}"

@@ -1,6 +1,7 @@
 import socket
 import multiprocessing
 
+from src.config import config
 from src.controllers.command_controller import CommandController
 from src.logger import setup_logger
 
@@ -29,14 +30,20 @@ class Node:
     def connect(self, host: str, port: int):
         try:
             connection = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+            connection.settimeout(config.TIMEOUT)
             connection.connect((host, port))
             
             self.connections.append(connection)
 
             self.logger.info("Connected to node %s:%d", host, port)
 
+        except socket.timeout:
+            self.logger.warning(f"Connection to {host}:{port} timed out after {config.TIMEOUT} seconds.")
+            raise TimeoutError(f"Connection to {host}:{port} timed out after {config.TIMEOUT} seconds.")
+
         except Exception as e:
             self.logger.error("Error connecting to %s:%d: %s", host, port, e)
+            raise TimeoutError(f"Connection to {host}:{port} timed out after {config.TIMEOUT} seconds.")
 
     def listen(self):
         self.sock.bind((self.host, self.port))        
@@ -54,7 +61,9 @@ class Node:
 
 
     def handle_client(self, conn, addr):
-        self.welcome_message(conn, addr)        
+        self.welcome_message(conn, addr)       
+
+        conn.settimeout(config.TIMEOUT) 
 
         while True:
             try:
@@ -62,31 +71,29 @@ class Node:
                 if not data:
                     break  
 
-                data = data.strip()
-                if not data:
-                    conn.sendall(b"> ")  
+                data_stripped = data.strip()
+
+                if not data_stripped:  
+                    conn.sendall(b"\r> ")  
                     continue
 
-                parts = data.split()
-                if not parts:
-                    continue
-
-                parts = data.strip().split()
+                parts = data_stripped.split()
                 command = parts[0]
                 args = parts[1:]
 
                 response = self.command_controller.execute(command, args)
-                conn.sendall(response.encode('utf-8'))
+
+                formatted_response = response.strip() + "\r\n\r\n> "
+                conn.sendall(formatted_response.encode('utf-8'))
 
             except Exception as e:
                 self.logger.error(f"Error handling client {addr}: {e}")
-                conn.sendall(f"ER: {e}".encode('utf-8'))
+                conn.sendall(f"\r\nER: {e}".encode('utf-8'))
                 break
 
         conn.close()
         self.connections.remove(conn)
         self.logger.info("Connection closed on node: %s:%d", addr[0], addr[1])
-
 
     def welcome_message(self, conn, addr):
         try:

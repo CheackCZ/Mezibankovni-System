@@ -6,3 +6,5 @@ https://blog.devgenius.io/implementing-peer-to-peer-data-exchange-in-python-8e69
 https://stackoverflow.com/questions/48244322/listen-method-parameters-in-python
 https://www.geeksforgeeks.org/python-binding-and-listening-with-sockets/
 https://stackoverflow.com/questions/55084433/difference-between-process-run-and-process-start
+https://www.askpython.com/python-modules/python-signal
+https://stackoverflow.com/questions/18704862/python-frame-parameter-of-signal-handler

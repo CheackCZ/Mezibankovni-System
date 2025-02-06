@@ -9,7 +9,7 @@ class BA:
     def execute(self, ):
         try:
             total_amount = self.bank_controller.get_total_balance()
-            return f"BA: {total_amount}\r\n\r\n> "
+            return f"BA: {total_amount}"
 
         except Exception as e:
-            return f"ER: {str(e)}\r\n\r\n> "
+            return f"ER: {str(e)}"

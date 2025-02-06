@@ -15,7 +15,7 @@ class BC:
     def execute(self):
         try:
             bank_ip = self.bank_controller.get_bank_code()
-            return f"BC {bank_ip}\r\n\r\n> "
+            return f"BC {bank_ip}"
         
         except Exception as e:
-            return f"ER: {e}\r\n\r\n> "
+            return f"ER: {e}"

@@ -1,7 +1,7 @@
 from sqlalchemy.sql import func
 from src.logger import setup_logger
-import os
 
+from src.config import config
 from db.connection import Connection
 from src.models.account import Account
 
@@ -15,7 +15,7 @@ class BankController:
     
 
     def get_bank_code(self):
-        bank_ip = os.getenv("HOST")
+        bank_ip = config.HOST
         self.logger.info(f"Return the bank code (ip): {bank_ip}")
         return bank_ip
     

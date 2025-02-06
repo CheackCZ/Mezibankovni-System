@@ -1,68 +1,48 @@
-import os
-from dotenv import load_dotenv
-
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
+from sqlalchemy.exc import OperationalError
 
+from src.config import config
+from src.logger import setup_logger
 
-class Connection():
+class Connection:
     """
-    Class for managing database connections and validating configuration values.
-    [!] - Reused file from the RDBMS project we did before.
+    Class for managing database connections and ensuring a single engine instance.
     """
-    
-    def get_engine(echo=False):
-        """
-        Connection to the database using the configuration values from the .env file.
 
-        :param echo: (bool) If True, the engine will log all the SQL statements it executes. 
-        """
-        load_dotenv()
+    logger = setup_logger()
+    _engine = None  
 
-        DB_URL = (
-            f"mysql+mysqlconnector://"
-            f"{Connection.validation(os.getenv('DB_USER'))}:"
-            f"{Connection.validation(os.getenv('DB_PASSWORD'))}@"
-            f"{Connection.validation(os.getenv('DB_HOST'))}:"
-            f"{Connection.port_validation(os.getenv('DB_PORT'))}/"
-            f"{Connection.validation(os.getenv('DB_NAME'))}"
-        )
-
-        return create_engine(DB_URL, echo=echo)
-
-    def get_session():
+    @classmethod
+    def get_engine(cls, echo=False):
         """
-        Creates a new session for the database connection.
+        Returns a single shared database engine instance.
         """
-        engine = Connection.get_engine()
-        Session = sessionmaker(bind=engine)
-        return Session()
-    
+        if cls._engine is None:
+            try:
+                DB_URL = (f"mysql+mysqlconnector://{config.DB_USER}:{config.DB_PASSWORD}@{config.DB_HOST}:{config.DB_PORT}/{config.DB_NAME}")
+                cls._engine = create_engine(DB_URL, echo=echo)
 
-    def validation(value):
+                cls.logger.info("Database engine initialized successfully.")
+
+            except OperationalError as e:
+                cls.logger.error(f"[!] Database connection failed: {e}")
+                raise ConnectionError(f"[!] Database connection failed: {e}")
+
+        return cls._engine 
+
+    @classmethod
+    def get_session(cls):
         """
-        Validates string configuration values, ensuring they are not empty or invalid.
+        Creates and returns a new session using the shared engine.
+        """
+        try:
+            engine = cls.get_engine()
+            Session = sessionmaker(bind=engine)
+            
+            cls.logger.info("Database session created successfully.")
+            return Session()
         
-        :param value (str): The configuration value to validate.
-        
-        :return str: The validated and stripped configuration value.
-        """
-        if not isinstance(value, str) or len(value.strip()) == 0:
-            raise ValueError("Invalid configuration -> Update its value inside the .env file.")
-        return value.strip()
-
-    def port_validation(port):
-        """
-        Validates the database port, ensuring it is a valid integer within the range 1-65535.
-
-        :param port (str): The port value to validate.
-        
-        :return int: The validated port as an integer.
-        """
-        if not port.isdigit():
-            raise ValueError("Invalid data type for port -> Update its value inside the .env file.")
-        
-        elif not (1 <= int(port) <= 65535):
-            raise ValueError("Invalid range for port -> Update its value inside the .env file.")
-        
-        return int(port)  
+        except Exception as e:
+            cls.logger.error(f"Error creating database session: {e}")
+            raise ConnectionError(f"[!] Error creating database session: {e}")

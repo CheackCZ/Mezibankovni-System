@@ -1,2 +1,9 @@
-[INFO] (2025-02-04 14:30:36,850) - (bank_controller.py) -> P2P: Return the bank code (ip): 127.0.0.1
-[INFO] (2025-02-04 14:30:39,301) - (node.py) -> P2P: Connection closed on node: 127.0.0.1:25398
+[INFO] (2025-02-06 20:35:32,580) - (bank_controller.py) -> P2P: Return the bank code (ip): 127.0.0.1
+[INFO] (2025-02-06 20:35:48,230) - (connection.py) -> P2P: Database engine initialized successfully.
+[INFO] (2025-02-06 20:35:48,231) - (connection.py) -> P2P: Database session created successfully.
+[INFO] (2025-02-06 20:35:48,242) - (bank_controller.py) -> P2P: Return the total balance: 1200.0
+[INFO] (2025-02-06 20:35:48,876) - (connection.py) -> P2P: Database session created successfully.
+[INFO] (2025-02-06 20:35:48,881) - (bank_controller.py) -> P2P: Return the total number of accounts: 9
+[INFO] (2025-02-06 20:35:50,555) - (connection.py) -> P2P: Database session created successfully.
+[INFO] (2025-02-06 20:35:50,562) - (account_controller.py) -> P2P: New account created: 10010 with balance 0.0.
+[INFO] (2025-02-06 20:36:04,615) - (node.py) -> P2P: Connection closed on node: 127.0.0.1:22657

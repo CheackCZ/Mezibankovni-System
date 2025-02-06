@@ -25,6 +25,8 @@ class AccountController:
         if not account:        
             self.logger.warning(f"Account with number {account_number} was not found.")
             return None
+        
+        return account
 
 
     def create_account(self):
@@ -145,7 +147,11 @@ class AccountController:
         if type(account_number) != int:
             self.logger.error(f"Validation failed: Account number must be an integer. Received: {account_number}")
             raise ValueError("[!] Account number must be an integer.")
-        
+
+        if not 10000 <= account_number <= 99999:
+            self.logger.error(f"Invalid account number: {account_number}")
+            raise ValueError("[!] Account number must be between 10000 and 99999.")
+
         account = self.get_account(account_number, session)
         if not account:
             self.logger.error(f"Validation failed: Account with number {account_number} does not exist.")

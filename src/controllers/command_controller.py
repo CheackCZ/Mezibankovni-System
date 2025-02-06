@@ -26,10 +26,11 @@ class CommandController:
         if command in self.commands:
             try:
                 command_instance = self.commands[command]()
+
                 return command_instance.execute(*args)
         
             except Exception as e:
                 return f"ER: {e}"
         
         else:
-            return f"ER: Unknown command\r\n\r\n> "
+            return f"ER: Unknown command"

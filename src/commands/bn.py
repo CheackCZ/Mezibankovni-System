@@ -9,6 +9,6 @@ class BN:
     def execute(self):
         try:
             total_accounts = self.bank_controller.get_number_of_accounts()
-            return f"BN: {total_accounts}\r\n\r\n> "
+            return f"BN: {total_accounts}"
         except Exception as e:
-            return f"ER: {str(e)}\r\n\r\n> "
+            return f"ER: {str(e)}"

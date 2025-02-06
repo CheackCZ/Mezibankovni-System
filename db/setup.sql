@@ -5,6 +5,7 @@ use interbanking_db;
 
 -- Vytvoření admin uživatele pro správu databáze
 -- create user 'admin'@'localhost' identified by 'admin';
+-- alter user 'admin'@'localhost' identified by 'admin_password';
 
 -- Vyhrazení všech práv administrátorovi
 grant all privileges on interbanking_db.* to 'admin'@'localhost';
@@ -18,8 +19,3 @@ create table account (
 ) auto_increment = 10000;
 
 select * from account;
-
--- Vložení dat do tabulky account
-insert into account (balance) values (1000);
-insert into account (balance) values (2000);
-insert into account (balance) values (3000);
