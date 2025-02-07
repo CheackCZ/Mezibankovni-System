@@ -22,17 +22,20 @@ class AR:
         try:
             account_parts = account_data.split("/")
             if len(account_parts) != 2:
-                return "ER: Invalid account format. Expected format: <account>/<ip>"
+                return "ER Invalid account format. Expected format: <account>/<ip>"
 
             account_number, ip_address = account_parts
-            account_number = int(account_number)
+            account = self.account_controller.get_account(account_number, self.account_controller.get_session())
 
-            self.account_controller.remove_account(account_number)
+            if account.balance != 0:
+                return f"ER Cannot remove account {account_number}. Balance must be zero."
+
+            self.account_controller.remove_account(int(account_number))
 
             return f"AR"
         
-        except ValueError:
-            return "ER: Invalid number format. Account must be an integer."
+        except ValueError as ve: 
+            return f"ER {ve}"
         
         except Exception as e:
             return f"ER: {e}"

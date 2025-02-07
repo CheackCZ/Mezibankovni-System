@@ -21,5 +21,6 @@ class AC:
             account_number = self.account_controller.create_account()
 
             return f"AC: {account_number}"
+        
         except Exception as e:
-            return f"ER: {e}"
+            return f"ER {e}"

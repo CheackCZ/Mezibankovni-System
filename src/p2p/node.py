@@ -74,7 +74,7 @@ class Node:
             conn, addr = self.sock.accept()
             self.connections.append(conn)
 
-            self.logger.info("Connected to %s:%d", addr[0], addr[1])
+            self.logger.info(f"New connection from {addr[0]}:{addr[1]}")
 
             process = multiprocessing.Process(target=self.handle_client, args=(conn, addr), daemon=True)
             process.start()

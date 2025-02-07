@@ -26,7 +26,7 @@ class AD(Proxy):
         try:
             account_parts = account_data.split("/")
             if len(account_parts) != 2:
-                return "ER: Invalid account format. Expected format: <account>/<ip>"
+                return "ER Invalid account format. Expected format: <account>/<ip>"
 
             account_number, ip_address = account_parts
 
@@ -37,8 +37,8 @@ class AD(Proxy):
 
             return f"AD"
         
-        except ValueError:
-            return "ER: Invalid number value. Account must be an integer, amount must be a float."
+        except ValueError as ve:
+            return f"ER {ve}"
         
         except Exception as e:
-            return f"ER: {e}"
+            return f"ER {e}"

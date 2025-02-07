@@ -22,4 +22,4 @@ class BA:
             return f"BA: {total_amount}"
 
         except Exception as e:
-            return f"ER: {str(e)}"
+            return f"ER {e}"

@@ -116,6 +116,9 @@ class AccountController:
             session.refresh(account)
 
             self.logger.info(f"Deposited {amount} to account {account_number}. New balance: {account.balance}.")
+
+        else:
+            self.logger.warning(f"Deposit failed: Account {account_number} does not exist.")
         
         session.close()
 
@@ -144,7 +147,7 @@ class AccountController:
         
         else:
             self.logger.error(f"Withdrawal of {amount} from account {account_number} failed. Insufficient balance.")
-            raise ValueError("[!] Don't have enough money on the account balance")
+            raise ValueError("Don't have enough money on the account balance")
         
         session.close()
 
@@ -159,16 +162,16 @@ class AccountController:
         """
         if type(account_number) != int:
             self.logger.error(f"Validation failed: Account number must be an integer. Received: {account_number}")
-            raise ValueError("[!] Account number must be an integer.")
+            raise ValueError("Account number must be an integer.")
 
         if not 10000 <= account_number <= 99999:
             self.logger.error(f"Invalid account number: {account_number}")
-            raise ValueError("[!] Account number must be between 10000 and 99999.")
+            raise ValueError("Account number must be between 10000 and 99999.")
 
         account = self.get_account(account_number, session)
         if not account:
             self.logger.error(f"Validation failed: Account with number {account_number} does not exist.")
-            raise ValueError(f"[!] Account with number {account_number} does not exist.")
+            raise ValueError(f"Account with number {account_number} does not exist.")
         
         session.close()
 
@@ -180,8 +183,8 @@ class AccountController:
         """
         if type(amount) not in [int, float]:
             self.logger.error(f"Validation failed: Amount must be a number. Received: {amount}")
-            raise ValueError("[!] Amount must be type of number.")
+            raise ValueError("Amount must be type of number.")
         
         if amount <= 0:
             self.logger.error(f"Validation failed: Amount must be a positive number. Received: {amount}")
-            raise ValueError("[!] Amount must be a positive number.")
+            raise ValueError("Amount must be a positive number.")

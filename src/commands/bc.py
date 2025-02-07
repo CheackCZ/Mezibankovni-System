@@ -25,4 +25,4 @@ class BC:
             return f"BC {bank_ip}"
         
         except Exception as e:
-            return f"ER: {e}"
+            return f"ER {e}"

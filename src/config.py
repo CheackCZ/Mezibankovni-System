@@ -1,6 +1,9 @@
 import os
 import sys
 import re
+import subprocess
+import platform
+
 from dotenv import load_dotenv
 import mysql.connector
 
@@ -57,7 +60,23 @@ class Config:
         if not re.match(ipv4_pattern, value) and not re.match(localhost_pattern, value):
             raise ValueError(f"[!] Invalid IP address format for {var_name}: {value}")
         
+        if value != "localhost":
+            if not self._is_host_reachable(value):
+                raise ValueError(f"[!] IP address {value} is unreachable.")
+
         return value
+    
+    def _is_host_reachable(self, value):
+        try:
+            if platform.system().lower() == "windows":
+                result = subprocess.run(["ping", "-n", "1", value], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+            else:
+                result = subprocess.run(["ping", "-c", "1", value], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+
+            return result.returncode == 0
+
+        except Exception:
+            return False
 
         
     def _validate_port(self, var_name, min_value, max_value):
