@@ -4,12 +4,11 @@ create database interbanking_db;
 use interbanking_db;
 
 -- Vytvoření admin uživatele pro správu databáze
--- create user 'admin'@'localhost' identified by 'admin';
--- alter user 'admin'@'localhost' identified by 'admin_password';
+-- create user 'admin'@'localhost' identified by 'admin_password';
 
 -- Vyhrazení všech práv administrátorovi
-grant all privileges on interbanking_db.* to 'admin'@'localhost';
-flush privileges;
+-- grant all privileges on interbanking_db.* to 'admin'@'localhost';
+-- flush privileges;
 
 -- Vytvoření tabulky account
 create table account (
@@ -18,4 +17,5 @@ create table account (
         check (balance >= 0)
 ) auto_increment = 10000;
 
-select * from account;
+-- Výpis všeho z tabulky account pro otestování dat v databázi
+-- select * from account;
