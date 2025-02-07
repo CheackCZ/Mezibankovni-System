@@ -216,15 +216,16 @@ Spolužáci se kterými jsem aplikaci testoval: *Saša Komínek (C4a)* a *Tomá�
 [ChatGPT: Generování pydoc dokumantace](https://chatgpt.com/c/67a51035-43bc-800b-9951-048a23a61ec5)<br>
 
 **Kód z předchozích projektů**<br>
-Paralelní programování: JečnáBot
+_Paralelní programování: JečnáBot_
 - **Inspirace navržení síťového protokolu** (```node.py```) pomocí ```server.py``` a ```session.py``` tříd a jejich metod v tomto projektu.
 - Použití metody ```handle_client()``` a ```_process_message()``` pro práci s připojeným nodem, v ```node.py/handle_client()```. 
   
-RDBMS: Car-Service
-- Použití stejné struktury: **model + controller** pro tabulky v databázi a práci s nimi. *(RDBMS: Car-Service)*
-- Použití stejné metody **připojující se k databázi** pro kontrolu připojení, v ```config.py/_validate_db_connection()```. *(RDBMS: Car-Service)*
-- Použití metod pro **validaci portu a hodnot z ```.env``` souboru**, v ```config.py```. *(RDBMS: Car-Service)*
+_RDBMS: Car-Service_
+- Použití stejné struktury: **model + controller** pro tabulky v databázi a práci s nimi. 
+- Použití stejné metody **připojující se k databázi** pro kontrolu připojení, v ```config.py/_validate_db_connection()```. 
+- Použití metod pro **validaci portu a hodnot z ```.env``` souboru**, v ```config.py```. 
 
+**Použití kódu ze cvičení 16.*.**
 ...
 
 ### Autor
