@@ -7,8 +7,20 @@ from src.config import config
 logger = logging.getLogger("P2P")
 
 class Proxy:
+    """
+    A utility class for handling proxy communication between bank nodes in a P2P network.
+    """
 
     def proxy_request(command, args, target_ip):
+        """
+        Proxies a request to another bank node in the network. Attempts to connect to a target bank node, forwards a command, and returns the response.
+
+        :param command (str): The command to be executed on the remote bank node.
+        :param args (list): A list of arguments required for the command.
+        :param target_ip (str): The IP address of the target bank node.
+
+        :return: response from the remote bank node or an error message if the connection fails.
+        """
         logger.info(f"Proxying request: {command} {args} → {target_ip}")
         
         active_port = Proxy._find_port(target_ip)
@@ -33,6 +45,11 @@ class Proxy:
         
 
     def _find_port(target_ip):
+        """
+        Finds an active port on the target bank node ip address.
+
+        :param target_ip (str): The IP address of the target bank node.
+        """
         for port in range(65525, 65535):
             try:
                 with socket.create_connection((target_ip, port), timeout=1) as sock:

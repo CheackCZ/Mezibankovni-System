@@ -1,8 +1,7 @@
 import os
 import sys
 import re
-import subprocess
-import platform
+import socket
 
 from dotenv import load_dotenv
 import mysql.connector
@@ -54,28 +53,32 @@ class Config:
         if value is None:
             raise ValueError(f"[!] Missing required environment variable: {var_name}")
 
+        if value in ["localhost", "127.0.0.1"]:
+            return value
+
         ipv4_pattern = r"^(?:[0-9]{1,3}\.){3}[0-9]{1,3}$"
         localhost_pattern = r"^localhost$"
 
         if not re.match(ipv4_pattern, value) and not re.match(localhost_pattern, value):
             raise ValueError(f"[!] Invalid IP address format for {var_name}: {value}")
         
-        if value != "localhost":
-            if not self._is_host_reachable(value):
-                raise ValueError(f"[!] IP address {value} is unreachable.")
+        if not self._ip_belongs_to_computer(value):
+            raise ValueError(f"[!] The IP {value} is NOT assigned to this computer.")
 
         return value
     
-    def _is_host_reachable(self, value):
+    def _ip_belongs_to_computer(self, ip_address):
+        """
+        Checks if the given IP address belongs to this computer using `socket.gethostbyname(hostname)`.
+
+        :param ip_address (str): The IP address to verify.
+        :return: True if the IP is assigned to the computer, otherwise False.
+        """
         try:
-            if platform.system().lower() == "windows":
-                result = subprocess.run(["ping", "-n", "1", value], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
-            else:
-                result = subprocess.run(["ping", "-c", "1", value], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
-
-            return result.returncode == 0
-
-        except Exception:
+            hostname = socket.gethostname()
+            local_ip = socket.gethostbyname(hostname)  # Gets the primary IP assigned to the computer
+            return ip_address == local_ip
+        except socket.error:
             return False
 
         

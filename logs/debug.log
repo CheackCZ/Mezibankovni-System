@@ -1,13 +1,21 @@
-[INFO] (2025-02-07 19:41:02,018) - (connection.py) -> P2P: Database engine initialized successfully.
-[INFO] (2025-02-07 19:41:02,019) - (connection.py) -> P2P: Database session created successfully.
-[INFO] (2025-02-07 19:41:02,034) - (account_controller.py) -> P2P: Withdrew 2000.0 from account 10026. New balance: 0.0.
-[INFO] (2025-02-07 19:41:07,337) - (connection.py) -> P2P: Database session created successfully.
-[INFO] (2025-02-07 19:41:07,341) - (account_controller.py) -> P2P: Retrieved balance for account 10026: 0.0.
-[INFO] (2025-02-07 19:41:13,266) - (connection.py) -> P2P: Database session created successfully.
-[INFO] (2025-02-07 19:41:13,268) - (connection.py) -> P2P: Database session created successfully.
-[INFO] (2025-02-07 19:41:13,276) - (account_controller.py) -> P2P: Account 10026 has been removed.
-[INFO] (2025-02-07 19:41:17,513) - (connection.py) -> P2P: Database session created successfully.
-[INFO] (2025-02-07 19:41:17,516) - (bank_controller.py) -> P2P: Return the total balance: 16450.0
-[INFO] (2025-02-07 19:41:19,033) - (connection.py) -> P2P: Database session created successfully.
-[INFO] (2025-02-07 19:41:19,037) - (bank_controller.py) -> P2P: Return the total number of accounts: 24
-[INFO] (2025-02-07 19:41:21,524) - (node.py) -> P2P: Connection closed on node: 127.0.0.1:28316
+[INFO] (2025-02-07 20:29:16,540) - (connection.py) -> P2P: Database engine initialized successfully.
+[INFO] (2025-02-07 20:29:16,541) - (connection.py) -> P2P: Database session created successfully.
+[INFO] (2025-02-07 20:29:16,557) - (account_controller.py) -> P2P: New account created: 10027 with balance 0.0.
+[INFO] (2025-02-07 20:29:17,636) - (bank_controller.py) -> P2P: Return the bank code (ip): 127.0.0.1
+[INFO] (2025-02-07 20:29:19,724) - (connection.py) -> P2P: Database session created successfully.
+[INFO] (2025-02-07 20:29:19,729) - (bank_controller.py) -> P2P: Return the total number of accounts: 25
+[INFO] (2025-02-07 20:29:22,115) - (connection.py) -> P2P: Database session created successfully.
+[INFO] (2025-02-07 20:29:22,118) - (bank_controller.py) -> P2P: Return the total balance: 16450.0
+[INFO] (2025-02-07 20:29:37,428) - (connection.py) -> P2P: Database session created successfully.
+[INFO] (2025-02-07 20:29:37,435) - (account_controller.py) -> P2P: Deposited 1200.0 to account 10027. New balance: 1200.0.
+[INFO] (2025-02-07 20:29:45,172) - (connection.py) -> P2P: Database session created successfully.
+[INFO] (2025-02-07 20:29:45,175) - (account_controller.py) -> P2P: Retrieved balance for account 10027: 1200.0.
+[INFO] (2025-02-07 20:29:53,476) - (connection.py) -> P2P: Database session created successfully.
+[ERROR] (2025-02-07 20:29:53,479) - (account_controller.py) -> P2P: Withdrawal of 2400.0 from account 10027 failed. Insufficient balance.
+[INFO] (2025-02-07 20:30:01,060) - (connection.py) -> P2P: Database session created successfully.
+[INFO] (2025-02-07 20:30:12,844) - (connection.py) -> P2P: Database session created successfully.
+[INFO] (2025-02-07 20:30:12,852) - (account_controller.py) -> P2P: Withdrew 1200.0 from account 10027. New balance: 0.0.
+[INFO] (2025-02-07 20:30:18,555) - (connection.py) -> P2P: Database session created successfully.
+[INFO] (2025-02-07 20:30:18,557) - (connection.py) -> P2P: Database session created successfully.
+[INFO] (2025-02-07 20:30:18,563) - (account_controller.py) -> P2P: Account 10027 has been removed.
+[INFO] (2025-02-07 20:30:22,937) - (node.py) -> P2P: Connection closed on node: 127.0.0.1:30360
