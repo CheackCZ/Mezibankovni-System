@@ -5,5 +5,6 @@ if __name__ == "__main__":
     try:
         node = Node(config.HOST, config.PORT)
         node.start()
+        
     except ValueError as ve:
         print(f"{ve}")

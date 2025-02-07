@@ -35,7 +35,7 @@ class Node:
         Starts the node's listener process in a separate process.
         """
         process = multiprocessing.Process(target=self.listen)
-        process.run()
+        process.start()
 
 
     def connect(self, host: str, port: int):
@@ -87,8 +87,6 @@ class Node:
         :param conn (socket.socket): The client's socket connection.
         :param addr (tuple): The client's (IP, port) tuple.
         """
-        self.welcome_message(conn, addr)       
-
         conn.settimeout(config.TIMEOUT) 
 
         while True:
@@ -100,7 +98,7 @@ class Node:
                 data_stripped = data.strip()
 
                 if not data_stripped:  
-                    conn.sendall(b"\r> ")  
+                    conn.sendall(b"")  
                     continue
 
                 parts = data_stripped.split()
@@ -109,7 +107,7 @@ class Node:
 
                 response = self.command_controller.execute(command, args)
 
-                formatted_response = response.strip() + "\r\n\r\n> "
+                formatted_response = response.strip() + "\r\n"
                 conn.sendall(formatted_response.encode('utf-8'))
 
             except Exception as e:
@@ -120,19 +118,3 @@ class Node:
         conn.close()
         self.connections.remove(conn)
         self.logger.info("Connection closed on node: %s:%d", addr[0], addr[1])
-
-    def welcome_message(self, conn, addr):
-        """
-        Sends a welcome message to a newly connected client.
-
-        :param conn (socket.socket): The client's socket connection.
-        :param addr (tuple): The client's (IP, port) tuple.
-        """
-        try:
-            welcome_message = "Welcome to the P2P Node! Enter your command below:\r\n> "
-            conn.sendall(welcome_message.encode('utf-8'))
-
-        except Exception as e:
-            self.logger.error("Error sending welcome message to client %s: %s", addr, e)
-            conn.close()
-            return

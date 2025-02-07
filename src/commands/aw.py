@@ -1,6 +1,8 @@
 from src.controllers.account_controller import AccountController
+from src.p2p.proxy import Proxy
+from src.config import config
 
-class AW:
+class AW(Proxy):
     """
     Handles the 'AW' command, which withdraws a specified amount from an account.
     """
@@ -26,10 +28,11 @@ class AW:
                 return "ER: Invalid account format. Expected format: <account>/<ip>"
 
             account_number, ip_address = account_parts
-            account_number = int(account_number)
-            amount = float(amount)
 
-            self.account_controller.account_withdraw(account_number, amount)
+            if ip_address != config.HOST:
+                return Proxy.proxy_request("AW", [account_data, amount], ip_address)
+
+            self.account_controller.account_withdraw(int(account_number), float(amount))
 
             return f"AW"
         

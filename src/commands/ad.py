@@ -1,6 +1,8 @@
 from src.controllers.account_controller import AccountController
+from src.p2p.proxy import Proxy
+from src.config import config
 
-class AD:
+class AD(Proxy):
     """
     Handles the 'AD' command, which deposits a specified amount into an account.
     """
@@ -27,10 +29,11 @@ class AD:
                 return "ER: Invalid account format. Expected format: <account>/<ip>"
 
             account_number, ip_address = account_parts
-            account_number = int(account_number)  
-            amount = float(amount) 
 
-            self.account_controller.account_deposit(account_number, amount)
+            if ip_address != config.HOST:
+                return Proxy.proxy_request(command="AD", args=[account_data, amount], target_ip=ip_address)
+
+            self.account_controller.account_deposit(int(account_number), float(amount))
 
             return f"AD"
         

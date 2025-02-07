@@ -138,6 +138,7 @@ Projekt zahrnuje asynchronní serverovou architekturu, správu bankovních účt
 [Rozdíl mezi Process.start() a Process.run()](https://stackoverflow.com/questions/55084433/difference-between-process-run-and-process-start)<br>
 [Co jsou signály a jak s nimi pracovat v pythonu?](https://www.askpython.com/python-modules/python-signal)<br>
 [Python: frame parameter of signal handler](https://stackoverflow.com/questions/18704862/python-frame-parameter-of-signal-handler)<br>
+[Carriage return in python](https://supersourcing.com/blog/what-is-r-in-python-what-is-its-purpose/)<br>
 [ChatGPT: Generování pydoc dokumantace](https://chatgpt.com/c/67a51035-43bc-800b-9951-048a23a61ec5)<br>
 ...
 

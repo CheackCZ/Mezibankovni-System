@@ -1,6 +1,8 @@
 from src.controllers.account_controller import AccountController
+from src.p2p.proxy import Proxy
+from src.config import config
 
-class AB:
+class AB(Proxy):
     """
     Handles the 'AB' command, which retrieves the balance of a given account.
     """
@@ -25,9 +27,11 @@ class AB:
                 return "ER: Invalid account format. Expected format: <account>/<ip>"
 
             account_number, ip_address = account_parts
-            account_number = int(account_number)
 
-            balance = self.account_controller.account_ballance(account_number)
+            if ip_address != config.HOST:
+                return Proxy.proxy_request("AB", [account_data], ip_address)
+
+            balance = self.account_controller.account_ballance(int(account_number))
 
             return f"AB {balance}"
        

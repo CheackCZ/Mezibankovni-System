@@ -35,6 +35,7 @@ class Config:
 
         # Timeout configuration
         self.TIMEOUT = self._validate_timeout("TIMEOUT")
+        self.PROXY_TIMEOUT = self._validate_timeout("PROXY_TIMEOUT")
 
 
     def _validate_host(self, var_name):
