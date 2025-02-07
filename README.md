@@ -211,6 +211,9 @@ Spolužáci se kterými jsem aplikaci testoval: *Saša Komínek (C4a)* a *Tomá�
 **cariage return python**<br>
 [Carriage return in python](https://supersourcing.com/blog/what-is-r-in-python-what-is-its-purpose/)<br>
 
+**python device ip address**
+[Python program to find IP Address](https://www.geeksforgeeks.org/python-program-find-ip-address/)<br>
+
 **ChatGPT**<br>
 [ChatGPT: MySQL Auto_INCREMENT od vyšší úrovně](https://chatgpt.com/c/6798c30b-756c-800b-b2a8-fdd371fdf18a)<br>
 [ChatGPT: Generování pydoc dokumantace](https://chatgpt.com/c/67a51035-43bc-800b-9951-048a23a61ec5)<br>
